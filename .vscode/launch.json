@@ -8,9 +8,9 @@
             "type": "cppdbg",
             "request": "launch",
             "name": "Debug",
-            "program": "${workspaceFolder}/${defaultBuildTask}/bin/observer",
+            "program": "${workspaceFolder}/build/bin/observer",
             "args": ["-f", "${workspaceFolder}/etc/observer.ini", "-P", "cli"],
-            "cwd": "${workspaceFolder}/${defaultBuildTask}/",
+            "cwd": "${workspaceFolder}/build/",
             "internalConsoleOptions": "openOnSessionStart",
             "osx": {
                 "MIMode": "lldb",
@@ -21,9 +21,9 @@
             "type": "lldb",
             "request": "launch",
             "name": "LLDB",
-            "program": "${workspaceFolder}/${defaultBuildTask}/bin/observer",
+            "program": "${workspaceFolder}/build/bin/observer",
             "args": ["-f", "${workspaceFolder}/etc/observer.ini", "-P", "cli"],
-            "cwd": "${workspaceFolder}/${defaultBuildTask}/"
+            "cwd": "${workspaceFolder}/build/"
         }
     ]
 }
