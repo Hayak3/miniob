@@ -33,6 +33,7 @@ public:
 
   inline static DataType *type_instance(AttrType attr_type)
   {
+    std::cout<<static_cast<int>(attr_type)<<std::endl;
     return type_instances_.at(static_cast<int>(attr_type)).get();
   }
 
