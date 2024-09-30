@@ -13,6 +13,8 @@ See the Mulan PSL v2 for more details. */
 #include "common/type/char_type.h"
 #include "common/type/attr_type.h"
 #include "common/value.h"
+#include <cstdlib>
+#include <ctime>
 
 int CharType::compare(const Value &left, const Value &right) const
 {
@@ -27,20 +29,45 @@ RC CharType::set_value_from_str(Value &val, const string &data) const
   return RC::SUCCESS;
 }
 
+
+
+
 RC CharType::cast_to(const Value &val, AttrType type, Value &result) const
 {
-  
+
   switch (type) {
-    case AttrType::DATES:{
-      int i =0;
-      int dates=0;
-      while (i<10&&val.value_.pointer_value_[i]!='\0') {
-        if(val.value_.pointer_value_[i]!='-') {
-          dates = dates * 10 + val.value_.pointer_value_[i] - '0';
-        }
+    case AttrType::DATES: {
+      int i     = 0;
+      int dates = 0;
+      string yy,mm,dd;
+      //convert char* to yymmdd
+      while (val.value_.pointer_value_[i] >='0'&&val.value_.pointer_value_[i]<='9' && i < val.length_) {
+        yy += val.value_.pointer_value_[i];
         i++;
       }
-      if(dates<19700101||dates>20380200) return RC::UNIMPLEMENTED;
+      i++;
+      while (val.value_.pointer_value_[i] >='0'&&val.value_.pointer_value_[i]<='9' && i < val.length_) {
+        mm += val.value_.pointer_value_[i];
+        i++;
+      }
+      i++;
+      while (val.value_.pointer_value_[i] >='0'&&val.value_.pointer_value_[i]<='9' && i < val.length_) {
+        dd += val.value_.pointer_value_[i];
+        i++;
+      }
+      if(mm.length()<2) {
+        mm = '0'+mm;
+      }
+      if(dd.length()<2) {
+        dd = '0'+dd;
+      }
+      struct tm tp;
+      if(!strptime((yy+'-'+mm+'-'+dd).c_str(), "%Y-%m-%d", &tp)) {
+        return RC::UNIMPLEMENTED;
+      }
+      dates = std::atoi((yy+mm+dd).c_str());
+      if (dates < 19700101 || dates > 20380200)
+        return RC::UNIMPLEMENTED;
       result.set_int(dates);
 
       return RC::SUCCESS;
