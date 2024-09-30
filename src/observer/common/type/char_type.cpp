@@ -62,12 +62,12 @@ RC CharType::cast_to(const Value &val, AttrType type, Value &result) const
         dd = '0'+dd;
       }
       struct tm tp;
-      if(!strptime((yy+'-'+mm+'-'+dd).c_str(), "%Y-%m-%d", &tp)) {
+      if(!strptime(val.value_.pointer_value_, "%Y-%m-%d", &tp)) {
         return RC::UNIMPLEMENTED;
       }
       dates = std::atoi((yy+mm+dd).c_str());
-      if (dates < 19700101 || dates > 20380200)
-        return RC::UNIMPLEMENTED;
+      // if (dates < 19700101 || dates > 20380200)
+      //   return RC::UNIMPLEMENTED;
       result.set_int(dates);
 
       return RC::SUCCESS;
